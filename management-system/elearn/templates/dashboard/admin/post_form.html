@@ -1,0 +1,27 @@
+{% extends 'dashboard/admin/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<div class="container-fluid">
+<div class="row pb-3"">
+<div class="card pb-5 col-sm-12">
+  <div class="card-header text-primary">
+     <center>Post New Announcement</center>
+  </div>
+  <div>
+    <div class="myform">
+    	    <form method="POST">
+    	{% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Post Notice" class="btn btn-primary">
+    </form>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+{% endblock body %}

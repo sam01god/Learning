@@ -1,0 +1,293 @@
+{% extends 'dashboard/admin/base.html' %}
+
+{% block body %}
+
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-12 mb-3">
+      <div class="col-12 mb-3">
+       
+
+            <div id="content-wrapper" style="padding-top: 30px">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+                         
+            <li class="breadcrumb-item">
+                <a href=""> {% if users %}{{users.username}}{% endif %} Details </a>
+            </li>
+            
+        </ol>
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table text-primary"></i>
+                E-Learning Management System
+            </div>
+            <div class="card-body">
+
+               <p><b>User Profile</b></p>
+               <div class="col-sm-6" style="padding-top: 20px">
+                <div class="card mb-3">
+                  {% if profile %}
+                  {% for user in profile %}
+                        
+                         <nav>
+                              <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                          <a class="nav-item nav-link active text-primary" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{ user.first_name }}  {{ user.last_name }}</a>
+                              </div>
+                          </nav>
+                          <div class="card-body">
+                               {% for message in messages %}
+                                  <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                                      {{ message }}
+                                  </div>
+                              {% endfor %}
+          
+                               {% if user.avatar %}
+                                  <center><img src="{{ user.avatar.url }}" class="img-thumbnail" alt="{{ user.user.username }}" style="height: 236px; width: 304px"></center><br>
+                              {% else %}
+                                              <span class="text-muted">No Profile Picture for {{ user.user.username }}</span>
+                              {% endif %}
+          
+                              
+          
+                                  <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th>Title</th>
+                      <th>Information</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Username</td>
+                      <td>{{ user.user.username }}</td>
+                  </tr>
+                  <tr>
+                      <td>First Name</td>
+                      <td>{{ user.first_name }}</td>
+                  </tr>
+                  <tr>
+                      <td>Last Name</td>
+                      <td>{{ user.last_name }}</td>
+                  </tr>
+                  <tr>
+                      <td>Phone Number</td>
+                      <td>{{ user.phonenumber }}</td>
+                  </tr>
+                  <tr>
+                      <td>Country</td>
+                      <td>{{ user.country }}</td>
+                  </tr>
+                  <tr>
+                      <td>Biography</td>
+                      <td>{{ user.bio }}</td>
+                  </tr>
+                         
+              </tbody>
+          </table>
+          
+          
+          
+                  </div>
+                </div>
+          
+                                </div>
+                              </div>  
+                            </div>
+               {% endfor %}
+               {% else %}
+               <p>No Profile Added</p>
+               {% endif %}
+                  
+           </div>
+           <div class="card-body">
+
+            <p><b>Announcements</b></p>
+            {% if announcement %}
+            {% for announce in announcement %}
+            {{announce.content}}
+            {% endfor %}
+            {% else %}
+            <p>No Announcement</p>
+            {% endif %}
+               
+        </div>
+        <div class="card-body">
+
+          <p><b>Tutorials</b></p>
+          {% if tutorial %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">S.N.</th>
+                <th scope="col">Title</th>
+                <th scope="col">content</th>
+                <th scope="col">course</th>
+                <th scope="col">Image</th>
+                <th scope="col">Video</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for tut in tutorial %}
+              <tr>
+                
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{tut.title}}</td>
+                <td>{{tut.content}}</td>
+                <td>{{tut.course}}</td>
+                {% if tut.thumb %}
+                <td><img src="{{ tut.thumb.url }}" class="img-thumbnail" alt="" style="height: 60px; width: 60px"></td>
+                {% endif %}
+                {% if tut.video %}
+                <td>{{tut.video}}</td>
+                {% endif %}
+                
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <p>No tutorial</p>
+          {% endif %}
+             
+      </div>
+
+      <div class="card-body">
+
+        <p><b>Notes</b></p>
+        {% if note %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">S.N.</th>
+              <th scope="col">Title</th>
+              <th scope="col">content</th>
+              <th scope="col">course</th>
+              <th scope="col">Image</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for not in note %}
+            <tr>
+              
+              <th scope="row">{{forloop.counter}}</th>
+              <td>{{not.title}}</td>
+              <td>{{not.file}}</td>
+              <td>{{not.course}}</td>
+              {% if not.cover %}
+              <td><img src="{{ not.cover.url }}" class="img-thumbnail" alt="" style="height: 60px; width: 60px"></td>
+              {% endif %}
+              
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No Note</p>
+        {% endif %}
+           
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color: blue">Ready to Delete?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body" style="color: red;"><h5> Select "Delete" below if you want to Delete</h5></div>
+        <div class="modal-footer">
+            <button class="btn btn-success" type="button" data-dismiss="modal">Cancel</button>
+           <a class="btn btn-danger" href="">Delete</a>
+        </div>
+    </div>
+</div>
+</div>
+
+
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock body %}
+
+{% block extrascripts %}
+  <script type="text/javascript">
+      $(function () {
+          // Log in & Sign up buttons
+          // The formURL is given explicitly
+          $("#login-btn").modalForm({
+            formURL: "{% url 'login' %}"
+          });
+
+          $("#signup-btn").modalForm({
+            formURL: "{% url 'signup' %}"
+          });
+
+
+
+          var asyncSuccessMessageUpdate = [
+            "<div ",
+            "style='position:fixed;top:0;z-index:10000;width:100%;border-radius:0;' ",
+            "class='alert alert-icon alert-success alert-dismissible fade show mb-0' role='alert'>",
+            "Success: Data was updated.",
+            "<button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
+            "<span aria-hidden='true'>&times;</span>",
+            "</button>",
+            "</div>",
+            "<script>",
+            "$('.alert').fadeTo(2000, 500).slideUp(500, function () {$('.alert').slideUp(500).remove();});",
+            "<\/script>"
+          ].join("");
+
+
+      function updateBookModalForm() {
+            $(".update-book").each(function () {
+              $(this).modalForm({
+                formURL: $(this).data("form-url"),
+                asyncUpdate: true,
+                asyncSettings: {
+                  closeOnSubmit: false,
+                  successMessage: asyncSuccessMessageUpdate,
+                  dataUrl: "books/",
+                  dataElementId: "#books-table",
+                  dataKey: "table",
+                  addModalFormFunction: updateBookModalForm
+                }
+              });
+            });
+          }
+          updateBookModalForm();
+
+          
+
+
+    
+         
+
+          // Read and Delete book buttons open modal with id="modal"
+          // The formURL is retrieved from the data of the element
+          $(".bs-modal").each(function () {
+              $(this).modalForm({formURL: $(this).data("form-url")});
+          });
+
+          // Hide message
+          $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+              $(".alert").slideUp(500);
+          });
+      });
+  </script>
+{% endblock extrascripts %}
+

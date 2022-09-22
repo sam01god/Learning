@@ -1,0 +1,13 @@
+{% extends 'dashboard/instructor/base.html' %}
+{% block body %}
+<div clsss="chat-section" style="margin-top:270px; margin-left: 480px;">
+    <h5>
+        <a
+         href="{% url 'chatroom' user.pk %}"
+         class="btn btn-primary text-uppercase text-center text-white"
+         style="font-weight:bolder;">
+         Enter into Chatroom
+        </a>
+   </h5>
+</div>
+{% endblock body %}
